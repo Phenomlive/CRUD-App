@@ -53,7 +53,9 @@ def register(request):
     data = {}
 
     if serializer.is_valid():
-        user = serializer.save()
+        serializer.save()
         data['response'] = "Successfully registered a new user."
     else:
         data = serializer.errors
+
+    return Response(data)
