@@ -4,6 +4,7 @@ from .models import Product
 from .serializers import ProductSerializer, UserSerializer
 from rest_framework.decorators import api_view
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 
 # Create your views here.
 
@@ -53,8 +54,10 @@ def register(request):
     data = {}
 
     if serializer.is_valid():
-        serializer.save()
+        user = serializer.save()
+        ###
         data['response'] = "Successfully registered a new user."
+        data['token'] = Token.objects.get(user=user).key
     else:
         data = serializer.errors
 
